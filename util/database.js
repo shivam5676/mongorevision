@@ -1,14 +1,24 @@
 //
 const mongodb = require("mongodb");
 const mongoClient = mongodb.MongoClient;
-const mongoConnect=(cbfn)=>{
+let db;
+const mongoConnect = (cbfn) => {
   mongoClient
-  .connect('mongodb+srv://shivam:1234Shivam@cluster0.ugn8rkz.mongodb.net/?retryWrites=true&w=majority')
-  .then((response) => {
-    console.log("connected");
-    cbfn(response);
-  })
-  .catch((err) => console.log(err));
-}
-module.exports=mongoConnect
-
+    .connect(
+      "mongodb+srv://shivam:1234Shivam@cluster0.ugn8rkz.mongodb.net/shopdatabase?retryWrites=true&w=majority"
+    )
+    .then((client) => {
+      console.log("connected");
+      db = client.db();
+      cbfn(client);
+    })
+    .catch((err) => console.log(err));
+};
+const getdb = () => {
+  if (db) {
+    return db;
+  }
+  throw "no databse found";
+};
+exports.getdb = getdb;
+exports.mongoConnect = mongoConnect;

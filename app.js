@@ -2,11 +2,11 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoConnect=require("./util/database")
-
-
-
+const mongoConnect = require("./util/database").mongoConnect
 const app = express();
+const adminRoutes=require("./routes/admin")
+
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -16,16 +16,17 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//   User.findById(1)
-//     .then(user => {
-//       req.user = user;
-//       next();
-//     })
-//     .catch(err => console.log(err));
-// });
+app.use((req, res, next) => {
+  next();
+  // User.findById(1)
+  //   .then(user => {
+  //     req.user = user;
+  //     next();
+  //   })
+  //   .catch(err => console.log(err));
+});
 
-// app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes);
 // app.use(shopRoutes);
 
 // app.use(errorController.get404);
@@ -57,8 +58,8 @@ app.use(express.static(path.join(__dirname, 'public')));
   //   // console.log(user);
   //   return user.createCart();
   // })
-  mongoConnect(client=>{
-    console.log(client)
+  mongoConnect(()=>{
+   
     app.listen(3000);
   })
 
