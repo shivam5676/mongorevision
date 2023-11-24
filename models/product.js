@@ -2,6 +2,7 @@
 
 // const sequelize = require('../util/database');
 const getdb = require("../util/database").getdb;
+const mongodb=require("mongodb")
 class Product {
   constructor(title, price, imageUrl, description) {
     this.title = title;
@@ -20,13 +21,22 @@ class Product {
       .catch((err) => console.log(err));
   }
   static fetchAll() {
-    const db=getdb()
+    const db = getdb();
     return db
       .collection("Products")
       .find()
       .toArray()
       .then((products) => console.log(products))
-      .catch(err=>console.log(err));
+      .catch((err) => console.log(err));
+  }
+
+  static findById(productId) {
+    const db = getdb();
+    return db
+      .collection("Products")
+      .find({ _id: new mongodb.ObjectId(productId) }).next()
+      .then((product) => console.log(product))
+      .catch((err) => console.log(err));
   }
 }
 
