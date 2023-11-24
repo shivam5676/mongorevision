@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoConnect = require("./util/database").mongoConnect
 const app = express();
 const adminRoutes=require("./routes/admin")
-
+const shopRoutes=require("./routes/shop")
 
 
 app.set('view engine', 'ejs');
@@ -27,7 +27,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/admin', adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes);
+
 
 // app.use(errorController.get404);
 

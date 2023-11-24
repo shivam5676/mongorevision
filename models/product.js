@@ -3,20 +3,30 @@
 // const sequelize = require('../util/database');
 const getdb = require("../util/database").getdb;
 class Product {
-  constructor(id, title, price, imageUrl, description) {
-    this.id = id;
+  constructor(title, price, imageUrl, description) {
     this.title = title;
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
   }
   save() {
-    const db=getdb();
-  return  db.collection("Products")
+    const db = getdb();
+    return db
+      .collection("Products")
       .insertOne(this)
       .then((result) => {
         console.log(result);
-      }).catch(err=>console.log(err))
+      })
+      .catch((err) => console.log(err));
+  }
+  static fetchAll() {
+    const db=getdb()
+    return db
+      .collection("Products")
+      .find()
+      .toArray()
+      .then((products) => console.log(products))
+      .catch(err=>console.log(err));
   }
 }
 
