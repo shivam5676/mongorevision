@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const mongoConnect = require("./util/database").mongoConnect
 const app = express();
 const adminRoutes=require("./routes/admin")
-const shopRoutes=require("./routes/shop")
+const shopRoutes=require("./routes/shop");
+const User = require('./models/user');
 
 
 app.set('view engine', 'ejs');
@@ -18,12 +19,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   next();
-  // User.findById(1)
-  //   .then(user => {
-  //     req.user = user;
-  //     next();
-  //   })
-  //   .catch(err => console.log(err));
+  User.findById('658a624b43b08e5161ef10a1')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
 });
 
 app.use('/admin', adminRoutes);
@@ -60,7 +61,7 @@ app.use(shopRoutes);
   //   return user.createCart();
   // })
   mongoConnect(()=>{
-   
+ 
     app.listen(3000);
   })
 

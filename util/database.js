@@ -5,7 +5,7 @@ let db;
 const mongoConnect = (cbfn) => {
   mongoClient
     .connect(
-      "mongodb+srv://shivam:1234Shivam@cluster0.ugn8rkz.mongodb.net/shopdatabase?retryWrites=true&w=majority"
+      "mongodb+srv://shivam:1234shivam@cluster0.ugn8rkz.mongodb.net/?retryWrites=true&w=majority"
     )
     .then((client) => {
       console.log("connected");
@@ -15,7 +15,7 @@ const mongoConnect = (cbfn) => {
     .catch((err) => console.log(err));
 };
 const getdb = () => {
-  if (db) {
+  if (db) {   
     return db;
   }
   throw "no databse found";

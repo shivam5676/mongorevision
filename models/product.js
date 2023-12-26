@@ -2,13 +2,15 @@
 
 // const sequelize = require('../util/database');
 const getdb = require("../util/database").getdb;
-const mongodb=require("mongodb")
+const mongodb = require("mongodb");
 class Product {
-  constructor(title, price, imageUrl, description) {
+  constructor(title, price, imageUrl, description,id,userId) {
     this.title = title;
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
+    this._id=id?new mongodb.ObjectId(id):null;
+    this.userId=userId;
   }
   save() {
     const db = getdb();
@@ -26,16 +28,24 @@ class Product {
       .collection("Products")
       .find()
       .toArray()
-      .then((products) => console.log(products))
+      .then((products) => {
+        console.log(products);
+        return products;
+      })
       .catch((err) => console.log(err));
   }
 
   static findById(productId) {
     const db = getdb();
+    
     return db
       .collection("Products")
-      .find({ _id: new mongodb.ObjectId(productId) }).next()
-      .then((product) => console.log(product))
+      .find({ "_id": new mongodb.ObjectId(productId) })
+      .next()
+      .then((product) => {
+        console.log(product);
+        return product;
+      })
       .catch((err) => console.log(err));
   }
 }
